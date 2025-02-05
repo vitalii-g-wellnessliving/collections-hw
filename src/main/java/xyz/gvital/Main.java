@@ -1,5 +1,8 @@
 package xyz.gvital;
 
+import java.util.HashMap;
+import java.util.Stack;
+
 final class Main {
     private Main() {
         throw new IllegalStateException("Utility class");
@@ -29,4 +32,27 @@ final class Main {
         }
         return prev;
     }
+
+    // checks if the input string has valid sequence of brackets
+    // https://leetcode.com/problems/valid-parentheses
+    private static boolean isClosed(String input) {
+        HashMap<Character, Character> brackets = new HashMap<>();
+        brackets.put('(', ')');
+        brackets.put('[', ']');
+        brackets.put('{', '}');
+
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < input.length(); i++) {
+            Character c = input.charAt(i);
+            if (brackets.containsKey(c)) {
+                stack.push(c);
+            } else if (brackets.containsValue(c) && !stack.isEmpty() && brackets.get(stack.peek()) == c) {
+                stack.pop();
+            } else {
+                return false;
+            }
+        }
+        return stack.isEmpty();
+    }
+
 }
